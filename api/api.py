@@ -1,43 +1,56 @@
 import sys
 import time
 import re
-from flask import Flask
+from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 
-# FLAGS
+# FLAGS / DEFINES
 ERROR = -1
 FORMAT_ERROR = -1
+REGEX_QUADRATIC_EQUATION_MATCHER = r'([+-]?\d*.?\d+)\*[xX]\^0([+-]\d*.?\d+)\*[xX]\^1([+-]\d*.?\d+)\*[xX]\^2'
 
 # CLASS
+class Subequation:
+    def __init__(self, subequation):
+        self.subequation = subequation
+        self.find_coeficients()
+    
+    def find_coeficients(self):
+        matcher = re.compile(REGEX_QUADRATIC_EQUATION_MATCHER)
+        coeficients = matcher.match(self.subequation)
+        self.a0 = float(coeficients.group(1))
+        self.a1 = float(coeficients.group(2))
+        self.a2 = float(coeficients.group(3))
+    
+    def print_subequation(self):
+        print('sub: ' + self.subequation)
+        print('sub a0: ' + str(self.a0))
+        print('sub a1: ' + str(self.a1))
+        print('sub a2: ' + str(self.a2))
+
 class Equation:
-    sub1 = ''
-    sub2 = ''
-    sub1_a0 = 0
-    sub1_a1 = 0
-    sub1_a2 = 0
-    sub2_a0 = 0
-    sub2_a1 = 0
-    sub2_a2 = 0
-    a0 = 0
-    a1 = 0
-    a2 = 0
+    def __init__(self, subequation1, subequation2):
+        self.find_coeficients(subequation1, subequation2)
+        self.find_degree()
 
-    def reduce_equation(self):
-        self.a0 = float(self.sub1_a0 - self.sub2_a0)
-        self.a1 = float(self.sub1_a1 - self.sub2_a1)
-        self.a2 = float(self.sub1_a2 - self.sub2_a2)
+    def find_coeficients(self, subequation1, subequation2):
+        self.a0 = float(subequation1.a0 - subequation2.a0)
+        self.a1 = float(subequation1.a1 - subequation2.a1)
+        self.a2 = float(subequation1.a2 - subequation2.a2)
 
-    def print_eq(self):
-        print('sub1: ' + self.sub1)
-        print('sub1 a0: ' + str(self.sub1_a0))
-        print('sub1 a1: ' + str(self.sub1_a1))
-        print('sub1 a2: ' + str(self.sub1_a2))
-        print('sub2: ' + self.sub2)
-        print('sub2 a0: ' + str(self.sub2_a0))
-        print('sub2 a1: ' + str(self.sub2_a1))
-        print('sub2 a2: ' + str(self.sub2_a2))
-        print('a0: ' + str(self.a0))
-        print('a1: ' + str(self.a1))
-        print('a2: ' + str(self.a2))
+    def reduced_form(self):
+        coef0 = '{:+.2f}'.format(self.a0)
+        coef1 = '{:+.2f}'.format(self.a1)
+        coef2 = '{:+.2f}'.format(self.a2)
+        return 'Reduced form: '+coef0+' * X^0 '+coef1+' * X^1 '+coef2+' * X^2 = 0'
+
+    def find_degree(self):
+        self.degree = 0
+        self.degree = 1 if self.a1 != 0 else 0
+        self.degree = 2 if self.a2 != 0 else self.degree
+
+    def print_degree(self):
+        print('Degree: '+str(self.degree))
 
 # ERROR MANAGEMENT
 def exit_error(error_type):
@@ -49,63 +62,46 @@ def check_errors(input):
         exit_error(FORMAT_ERROR)
 
 # PARSING
-def find_subequations(input, equation):
-    equation.sub1 = input.split('=')[0].strip()
-    equation.sub2 = input.split('=')[1].strip()
-
-def format_subequations(equation):
-    equation.sub1 = equation.sub1.replace(' ', '')
-    if (equation.sub1.count('+') + equation.sub1.count('-') < equation.sub1.count('X')):
-        equation.sub1 = '+ ' + equation.sub1
-    equation.sub2 = equation.sub2.replace(' ', '')
-    if (equation.sub2.count('+') + equation.sub2.count('-') < equation.sub2.count('X')):
-        equation.sub2 = '+' + equation.sub2
-
-def find_coeficients(subequation):
-    quadratic_equation_matcher = re.compile(r'([+-]? ?\d*.?\d+) ?\* ?X\^0 ?([+-] ?\d*.?\d+) ?\* ?X\^1 ?([+-] ?\d*.?\d+) ?\* ?X\^2')
-    matches = quadratic_equation_matcher.match(subequation)
-    return matches
-
-def find_coeficients_subequations(equation):
-    coef = find_coeficients(equation.sub1)
-    equation.sub1_a0 = float(coef.group(1))
-    equation.sub1_a1 = float(coef.group(2))
-    equation.sub1_a2 = float(coef.group(3))
-    coef = find_coeficients(equation.sub2)
-    equation.sub2_a0 = float(coef.group(1))
-    equation.sub2_a1 = float(coef.group(2))
-    equation.sub2_a2 = float(coef.group(3))
+def find_subequation(input, index):
+    return input.split('=')[index].strip().replace(' ', '')
 
 def parse(input):
     # check_errors(input)
-    equation = Equation()
-    find_subequations(input, equation)
-    format_subequations(equation)
-    find_coeficients_subequations(equation)
+    subequation1 = Subequation(find_subequation(input,0))
+    subequation2 = Subequation(find_subequation(input,1))
+    equation = Equation(subequation1, subequation2)
     return equation
-
-# PRINT REDUCED EQUATION
-def print_reduced_equation(equation):
-    coef0 = '{:+.2f}'.format(equation.a0)
-    coef1 = '{:+.2f}'.format(equation.a1)
-    coef2 = '{:+.2f}'.format(equation.a2)
-    print('Reduced form: '+coef0+' * X^0 '+coef1+' * X^1 '+coef2+' * X^2 = 0')
 
 # SOLVER
 def solve(equation):
     return 'equation: ' + equation
 
-# CHECK INPUT COMMAND LINE
-if len(sys.argv) > 1 :
+# INPUT FROM THE COMMAND LINE
+def input_from_the_command_line(argv):
+    if argv[0] == 'api.py' and len(argv) > 1:
+        return bool(1)
+    return bool(0)
+
+if input_from_the_command_line(sys.argv):
     equation = parse(sys.argv[1])
-    equation.reduce_equation()
-    print_reduced_equation(equation)
+    print(equation.reduced_form())
+    equation.print_degree()
     # solution = solve(equation.sub1)
     # equation.print_eq()
     exit()
 
-# CHECK INPUT FRONT
+# INPUT FROM THE FRONT
 app = Flask(__name__)
-@app.route('/time')
-def get_current_time():
-    return {'time': time.time()}
+cors = CORS(app)
+
+@app.route('/api/', methods = ['POST'])
+def input_from_pos_request():
+    data = request.get_json()
+    equation = parse(data['rawEquation'])
+    print(equation.reduced_form())
+    equation.print_degree()
+    return jsonify({
+        'time': time.time(),
+        'degree': equation.degree,
+        'reducedForm': equation.reduced_form()
+    })
