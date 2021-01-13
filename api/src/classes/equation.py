@@ -1,23 +1,37 @@
 class Equation:
     def __init__(self, subequation1, subequation2):
         self.find_coeficients(subequation1, subequation2)
+        self.find_reduced_form()
         self.find_degree()
+        self.find_discriminant()
+        self.info = ''
+        self.root1_r = 'null'
+        self.root1_i = 'null'
+        self.root2_r = 'null'
+        self.root2_i = 'null'
 
     def find_coeficients(self, subequation1, subequation2):
-        self.a0 = float(subequation1.a0 - subequation2.a0)
-        self.a1 = float(subequation1.a1 - subequation2.a1)
-        self.a2 = float(subequation1.a2 - subequation2.a2)
+        self.a = float(subequation1.a - subequation2.a)
+        self.b = float(subequation1.b - subequation2.b)
+        self.c = float(subequation1.c - subequation2.c)
 
-    def reduced_form(self):
-        coef0 = '{:+.2f}'.format(self.a0)
-        coef1 = '{:+.2f}'.format(self.a1)
-        coef2 = '{:+.2f}'.format(self.a2)
-        return 'Reduced form: '+coef0+' * X^0 '+coef1+' * X^1 '+coef2+' * X^2 = 0'
+    def find_reduced_form(self):
+        reduced_form = ''
+        if self.a != 0:
+            reduced_form += '{:+.2f}'.format(self.a).rstrip('0').rstrip('.')+'x² '
+        if self.b != 0:
+            reduced_form += '{:+.2f}'.format(self.b).rstrip('0').rstrip('.')+'x '
+        if self.c != 0:
+            reduced_form += '{:+.2f}'.format(self.c).rstrip('0').rstrip('.')+' '
+        if reduced_form == '':
+            reduced_form += '0 '
+        reduced_form += '= 0'
+        self.reduced_form = reduced_form
 
     def find_degree(self):
         self.degree = 0
-        self.degree = 1 if self.a1 != 0 else 0
-        self.degree = 2 if self.a2 != 0 else self.degree
+        self.degree = 1 if self.b != 0 else 0
+        self.degree = 2 if self.a != 0 else self.degree
 
-    def print_degree(self):
-        print('Degree: '+str(self.degree))
+    def find_discriminant(self):
+        self.discriminant = (self.b * self.b) - (4 * self.c * self.a)
