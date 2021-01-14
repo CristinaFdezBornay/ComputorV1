@@ -24,12 +24,12 @@ export default function ComputorV1() {
         ? <Calculator
           setInput={setInput}
           changeComponent={changeComponent}
-          />
-          : <Result
+        />
+        : <Result
             input={input}
             setInput={setInput}
             changeComponent={changeComponent}
-          />
+        />
       }
     </Container>
   )
