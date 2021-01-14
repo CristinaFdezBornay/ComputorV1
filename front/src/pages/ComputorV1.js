@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import Calculator from './Calculator';
-import Result from './Result';
+import Calculator from '../components/Calculator';
+import Result from '../components/Result';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-      flexGrow: 1,
-  },
+const useStyles = makeStyles(() => ({
   container: {
-      backgroundColor: '#cfe8fc',
+    flexGrow: 1,
+    padding: '3vh',
   }
 }));
 
@@ -21,7 +19,7 @@ export default function ComputorV1() {
   const changeComponent = () => { setShowCalculator(!showCalculator) }
 
   return (
-    <Container maxWidth='lg' className={classes.container}>
+    <Container className={classes.container} maxWidth='md' fixed>
       { showCalculator
         ? <Calculator
           setInput={setInput}
