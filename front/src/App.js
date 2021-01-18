@@ -6,7 +6,7 @@ import Header from './components/Header';
 function App() {
     return (
         <React.Fragment>
-            <CssBaseline />
+            <CssBaseline/>
                 <Header/>
                 <ComputorV1/>
         </React.Fragment>
