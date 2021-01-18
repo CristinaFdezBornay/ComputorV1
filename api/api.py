@@ -27,6 +27,7 @@ def input_from_pos_request():
     data = request.get_json()
     equation = parse(data['rawEquation'])
     solution = solve(equation)
+    # return jsonify({ 'salut': 'Coucou bbé' })
     return jsonify({
         'a': equation.a,
         'b': equation.b,

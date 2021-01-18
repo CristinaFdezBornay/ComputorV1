@@ -16,7 +16,7 @@ def check_errors(input):
 
 # PARSING
 def find_subequation(input, index):
-    return input.split('=')[index].strip().replace(' ', '')
+    return input.split('=')[index].strip().replace('X', 'x').replace(' ', '')
 
 def parse(input):
     # check_errors(input)

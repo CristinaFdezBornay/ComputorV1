@@ -1,12 +1,40 @@
 import re
 
-REGEX_QUADRATIC_EQUATION_MATCHER = r'([+-]?\d*.?\d+\*x\^0)?([+-]\d*.?\d+\*x\^1)?([+-]\d*.?\d+\*x\^2)?([+-]\d*.?\d+\*x\^\d)?'
+REGEX_EQUATION=r'(([+-]\d*\.?\d+)(\*?x{1}\^?([0-9])?)?)' # 5.x WRONG
+# REGEX_EQUATION=r'(([+-]\d*\.?\d+)*(\*?x{1}(\^([0-9]))?)?)'
+# REGEX_EQUATION=r'(([+-]?\d+(\.\d+)?)\*?((x{1}\^[0-9])|(x)))|([+-]?\d+(\.\d+)?)|(([+-])?(x{1}(\^([0-9]))?))'
+# REGEX_QUADRATIC_EQUATION_MATCHER = r'([+-]?\d*.?\d+\*x\^0)?([+-]\d*.?\d+\*x\^1)?([+-]\d*.?\d+\*x\^2)?([+-]\d*.?\d+\*x\^\d)?'
 # REGEX_QUADRATIC_EQUATION_MATCHER = r'([+-]?\d*.?\d+\*x\^0)?([+-]\d*.?\d+\*x\^1)?([+-]\d*.?\d+\*x\^2)?'
 
 class Subequation:
     def __init__(self, subequation):
-        self.subequation = subequation.replace('X', 'x')
-        self.find_coeficients()
+        self.subequation = subequation
+        self.find_coeficients2()
+        self.error = 0
+
+    def find_coeficients2(self):
+        if (self.subequation != '-*' and self.subequation != '+*'):
+            self.subequation = '+'+self.subequation
+        print(self.subequation)
+        matches = re.findall(REGEX_EQUATION, self.subequation)
+        self.a = 0
+        self.b = 0
+        self.c = 0
+        for match in matches:
+            if match[2] == '':
+                self.c += float(match[1])
+            elif match[2] == '*x' or match[2] == 'x':
+                self.b += float(match[1])
+            elif match[2] == '*x^0' or match[2] == '*x0' or match[2] == 'x^0' or match[2] == 'x0':
+                self.c += float(match[1])
+            elif match[2] == '*x^1' or match[2] == '*x1' or match[2] == 'x^1' or match[2] == 'x1':
+                self.b += float(match[1])
+            elif match[2] == '*x^2' or match[2] == '*x2' or match[2] == 'x^2' or match[2] == 'x2':
+                self.a += float(match[1])
+            print(match)
+        # CRISTINA YOU HAVE TO MANAGE HIGHER DEGREES
+        self.print_subequation()
+        exit()        
     
     def find_coeficients(self):
         matcher = re.compile(REGEX_QUADRATIC_EQUATION_MATCHER)
