@@ -9,9 +9,9 @@ export default function SendResult(props) {
             <Button
                 variant='contained'
                 color='primary'
-                onClick={() => {props.setInputAndChangeComponent()}}>
+                onClick={() => {props.onClick()}}>
                 <Typography variant='h6'>
-                    {'RESULT'}
+                    {props.title}
                 </Typography>
             </Button>
         </Grid>

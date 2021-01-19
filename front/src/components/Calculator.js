@@ -46,7 +46,8 @@ export default function Calculator(props) {
                     setInputCalculator={setInputCalculator}
                 />
                 <SendResult
-                    setInputAndChangeComponent={setInputAndChangeComponent}
+                    title='RESULT'
+                    onClick={setInputAndChangeComponent}
                 />
             </Grid>
         </div>

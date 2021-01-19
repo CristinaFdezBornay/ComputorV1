@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import SendResult from './SendResult';
+
+const useStyles = makeStyles(() => ({
+    root: {
+      flexGrow: 1,
+      textAlign: 'center',
+      backgroundColor: '#ccebff',
+      padding: '3vh',
+      borderRadius: '3%'
+    },
+}));
 
 export default function Result(props) {
+    const classes = useStyles();
     const [result, setResult] = useState({})
 
     useEffect(() => {
@@ -19,11 +32,10 @@ export default function Result(props) {
             await fetch('http://localhost:5000/api/', requestOptions)
             .then( async(responsePetition)  => {
                 const response = await responsePetition.json()
-                console.log(response)
                 setResult(response)
             })
-            .catch( error => {
-                console.log(error);
+            .catch(() => {
+                setResult({error: 'ERROR'})
             });
         }
         fetchResult();
@@ -35,12 +47,18 @@ export default function Result(props) {
     }
 
     return (
-        <Grid>
-            {result.reducedForm}
-            <br/>
-            <Button onClick={clearInputAndChangeComponent}>
-                We are on the Result - Click to change to the Calculation
-            </Button>
-        </Grid>
+        <div className={classes.root}>
+            <Grid container spacing={2} alignItems='center' justify='center'>
+                <Grid item md={12}>
+                    <Typography variant='h4' color='primary'>
+                        {'Do something thanks'}
+                    </Typography>
+                </Grid>
+                <SendResult
+                    title='GO BACK TO CALCULATION'
+                    onClick={clearInputAndChangeComponent}
+                />
+            </Grid>
+        </div>
     )
 }
