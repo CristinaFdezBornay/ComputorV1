@@ -14,7 +14,13 @@ def input_from_the_command_line(argv):
 if input_from_the_command_line(sys.argv):
     parse(sys.argv[1])
     equation = parse(sys.argv[1])
+    if equation == 'ERROR':
+        print('INPUT ERROR')
+        exit()
     solution = solve(equation)
+    if solution == 'ERROR':
+        print('PROCESS ERROR')
+        exit()
     display(equation)
     exit()
 
@@ -26,18 +32,19 @@ cors = CORS(app)
 def input_from_pos_request():
     data = request.get_json()
     equation = parse(data['rawEquation'])
+    if equation == 'ERROR':
+        return jsonify({error: 'INPUT ERROR'})
     solution = solve(equation)
-    # return jsonify({ 'salut': 'Coucou bbé' })
     return jsonify({
-        'a': equation.a,
-        'b': equation.b,
-        'c': equation.c,
-        'reducedForm': equation.reducedForm,
-        'degree': equation.degree,
-        'discriminant': equation.discriminant,
-        'info': equation.info,
-        'root1_r': equation.root1_r,
-        'root1_i': equation.root1_i,
-        'root2_r': equation.root2_r,
-        'root2_i': equation.root2_i,
+        'a': solution.a,
+        'b': solution.b,
+        'c': solution.c,
+        'reducedForm': solution.reducedForm,
+        'degree': solution.degree,
+        'discriminant': solution.discriminant,
+        'info': solution.info,
+        'root1_r': solution.root1_r,
+        'root1_i': solution.root1_i,
+        'root2_r': solution.root2_r,
+        'root2_i': solution.root2_i,
     })

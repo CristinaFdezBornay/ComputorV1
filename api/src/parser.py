@@ -1,26 +1,26 @@
 from src.classes.equation import Equation
 from src.classes.subequation import Subequation
 
-# FLAGS / DEFINES
-ERROR = -1
-FORMAT_ERROR = -1
+def checkCorrectCharacters(str, set):
+    for c in str:
+        if set.count(c) == 0:
+            return 'ERROR'
 
-# ERROR MANAGEMENT
-def exit_error(error_type):
-    print(error_type + ':(')
-    exit()
-
-def check_errors(input):
-    if input.find('=') == ERROR:
-        exit_error(FORMAT_ERROR)
+def check_errors(input):  
+    if input.count('=') != 1 or checkCorrectCharacters(input, '0123456789xX*^= ') == 'ERROR':
+        return 'ERROR'
 
 # PARSING
 def find_subequation(input, index):
     return input.split('=')[index].strip().replace('X', 'x').replace(' ', '')
 
 def parse(input):
-    # check_errors(input)
+    check_errors(input)
     subequation1 = Subequation(find_subequation(input,0))
     subequation2 = Subequation(find_subequation(input,1))
-    equation = Equation(subequation1, subequation2)
-    return equation
+    if subequation1.error == 0 and subequation2.error == 0:
+        equation = Equation(subequation1, subequation2)
+        if equation.error == 0:
+            return equation
+    else:
+        return 'ERROR'

@@ -4,6 +4,7 @@ class Equation:
         self.find_reduced_form()
         self.find_degree()
         self.find_discriminant()
+        self.error = 0
         self.info = ''
         self.root1_r = 'null'
         self.root1_i = 'null'
