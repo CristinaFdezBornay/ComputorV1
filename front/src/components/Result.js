@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import SendResult from './SendResult';
+import ResultDisplayer from './ResultDisplayer';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -10,7 +11,7 @@ const useStyles = makeStyles(() => ({
       textAlign: 'center',
       backgroundColor: '#ccebff',
       padding: '3vh',
-      borderRadius: '3%'
+      borderRadius: '5%'
     },
 }));
 
@@ -32,7 +33,7 @@ export default function Result(props) {
             await fetch('http://localhost:5000/api/', requestOptions)
             .then( async(responsePetition)  => {
                 const response = await responsePetition.json()
-                setResult(response)
+                setResult({...response})
             })
             .catch(() => {
                 setResult({error: 'ERROR'})
@@ -49,11 +50,15 @@ export default function Result(props) {
     return (
         <div className={classes.root}>
             <Grid container spacing={2} alignItems='center' justify='center'>
-                <Grid item md={12}>
-                    <Typography variant='h4' color='primary'>
-                        {'Do something thanks'}
-                    </Typography>
-                </Grid>
+                { result.error ?
+                    <Grid item md={12}>
+                        <Typography variant='h4' color='primary'>
+                            {'There has been an error while processing.'}
+                        </Typography>
+                    </Grid>
+                    :
+                    <ResultDisplayer result={result}/>
+                }
                 <SendResult
                     title='GO BACK TO CALCULATION'
                     onClick={clearInputAndChangeComponent}
