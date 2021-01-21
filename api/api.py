@@ -32,19 +32,24 @@ cors = CORS(app)
 def input_from_pos_request():
     data = request.get_json()
     equation = parse(data['rawEquation'])
+    print(equation)
     if equation == 'ERROR':
-        return jsonify({error: 'INPUT ERROR'})
+        return jsonify({ 'error': 'INPUT ERROR'})
     solution = solve(equation)
+    root1_r = 'null' if solution.root1_r == 'null' else '  {:+.3f}'.format(solution.root1_r).rstrip('0').rstrip('.')
+    root1_i = 'null' if solution.root1_i == 'null' else '  {:+.3f}'.format(solution.root1_i).rstrip('0').rstrip('.')
+    root2_r = 'null' if solution.root2_r == 'null' else '  {:+.3f}'.format(solution.root2_r).rstrip('0').rstrip('.')
+    root2_i = 'null' if solution.root2_i == 'null' else '  {:+.3f}'.format(solution.root2_i).rstrip('0').rstrip('.')
     return jsonify({
         'a': solution.a,
         'b': solution.b,
         'c': solution.c,
-        'reducedForm': solution.find_reduced_form(),
-        'degree': solution.find_degree(),
-        'discriminant': solution.find_discriminant(),
+        'reducedForm': solution.reduced_form,
+        'degree': solution.degree,
+        'discriminant': solution.discriminant,
         'info': solution.info,
-        'root1_r': solution.root1_r,
-        'root1_i': solution.root1_i,
-        'root2_r': solution.root2_r,
-        'root2_i': solution.root2_i,
+        'root1_r': root1_r,
+        'root1_i': root1_i,
+        'root2_r': root2_r,
+        'root2_i': root2_i,
     })
