@@ -12,7 +12,6 @@ def input_from_the_command_line(argv):
     return bool(0)
 
 if input_from_the_command_line(sys.argv):
-    parse(sys.argv[1])
     equation = parse(sys.argv[1])
     if equation == 'ERROR':
         print('INPUT ERROR')
@@ -34,7 +33,6 @@ cors = CORS(app)
 def input_from_pos_request():
     data = request.get_json()
     equation = parse(data['rawEquation'])
-    print(equation)
     if equation == 'ERROR':
         return jsonify({ 'error': 'INPUT ERROR'})
     solution = solve(equation)
