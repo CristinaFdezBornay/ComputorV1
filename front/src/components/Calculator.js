@@ -20,7 +20,7 @@ export default function Calculator(props) {
     const classes = useStyles();
     const [inputCalculator, setInputCalculator] = useState('');
     const setInputAndChangeComponent = () => {
-        let finalInput = inputCalculator.replace('*x²', '*x^2').replace('*x', '*x^1')
+        let finalInput = inputCalculator.replaceAll('*x²', '*X^2').replaceAll('*x', '*X^1')
         if (finalInput.split('=').length - 1 === 0)
             finalInput += '= 0'
         else if (finalInput.split('=').length - 1 > 1)
