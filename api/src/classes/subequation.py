@@ -1,11 +1,12 @@
 import re
 
-REGEX_EQUATION=r'(([+-][0-9]*(\.[0-9]+)?)(\*?x{1}\^?([0-9])?)?)'
+REGEX_EQUATION=r'(([+-][0-9]*(\.[0-9]+)?)(\*?x{1}\^?([0-9]*))?)'
 
 class Subequation:
     def __init__(self, subequation):
         self.subequation = subequation
         self.error = 0
+        self.degree_higher_than_2 = 0
         self.find_coeficients()
 
     def find_coeficients(self):
@@ -30,11 +31,14 @@ class Subequation:
                 self.a += float(match[1])
             elif float(match[4]) > 2:
                 self.error = 1
+                self.degree_higher_than_2 = 1
         if error_check != self.subequation:
             self.error = 1
    
     def print_subequation(self):
-        print('sub: ' + self.subequation)
+        print('sub  : ' + self.subequation)
         print('sub a: ' + str(self.a))
         print('sub b: ' + str(self.b))
         print('sub c: ' + str(self.c))
+        print('error: ' + str(self.error))
+        print('DHT2 : ' + str(self.degree_higher_than_2))

@@ -16,12 +16,14 @@ if input_from_the_command_line(sys.argv):
     equation = parse(sys.argv[1])
     if equation == 'ERROR':
         print('INPUT ERROR')
-        exit()
-    solution = solve(equation)
-    if solution == 'ERROR':
-        print('PROCESS ERROR')
-        exit()
-    display(equation)
+    elif equation == 'DEGREE HIGHER THAN 2 ERROR':
+        print('\nThe polynomial degree is strictly greater than 2, I can\'t solve.\n')
+    else:
+        solution = solve(equation)
+        if solution == 'ERROR':
+            print('PROCESS ERROR')
+        else:
+            display(equation)
     exit()
 
 # INPUT FROM THE FRONT
