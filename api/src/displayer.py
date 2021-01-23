@@ -33,4 +33,3 @@ def display(equation):
     display_discriminant(equation)
     print()
     display_solution(equation)
-    print()
