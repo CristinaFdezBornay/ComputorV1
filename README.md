@@ -59,7 +59,8 @@ A Web GUI has been implemented:
 
 
 ### INPUT FORMAT
-Since the mandatory format is pretty annoying some improvements have been implemented
+Since the mandatory format is pretty annoying some improvements have been implemented.
+
 Taking as a reference: `Σ[ z * X^n ]ᵢ`
 
 1.  It is not required to introduce the terms by incrementing exponent order.
