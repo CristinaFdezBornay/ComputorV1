@@ -2,23 +2,27 @@ from src.classes.equation import Equation
 from src.classes.subequation import Subequation
 
 def checkCorrectCharacters(input):
-    admitedCharacters = '0123456789xX*^= '
+    admitedCharacters = '0123456789xX*^=+-. '
     for c in input:
         if admitedCharacters.count(c) == 0:
             return 'ERROR'
 
-def check_errors(input):  
-    if input.count('=') != 1:
+def check_errors(input):
+    if input.count('=') == 0:
+        return input + ' = 0'
+    if input.count('=') > 1:
         return 'ERROR'
     if checkCorrectCharacters(input) == 'ERROR':
         return 'ERROR'
+    return input
 
 # PARSING
 def find_subequation(input, index):
     return input.split('=')[index].strip().replace('X', 'x').replace(' ', '')
 
 def parse(input):
-    if check_errors(input) == 'ERROR':
+    input = check_errors(input)
+    if input == 'ERROR':
         return 'ERROR'
     subequation1 = Subequation(find_subequation(input,0))
     subequation2 = Subequation(find_subequation(input,1))

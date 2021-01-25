@@ -6,6 +6,6 @@ while IFS= read -r line
 do
     echo "========================================================================"
     echo "INPUT     :   $line"
-    ./venv/bin/python api.py "$line"
+    python api.py "$line"
     echo "========================================================================"
 done < "$input"
