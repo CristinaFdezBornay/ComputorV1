@@ -10,13 +10,14 @@ The information that will be displayed is:
 * The degree of the equation.
 * The discriminant and solution(s).
 
-**Exceptions:**
+*Exceptions:*
 * INPUT ERROR
 * Unsolvable equations
 
 #### Input format
 The input should be formated as follows:
 `a * X^0 + b * X^1 + c * X^2 + ... + Σ[ z * X^n ]ᵢ = Σ[ z * X^n ]ᵢ`
+
 Being `a, b, c, ..., z` the coeficient and `0, 1, 2, ..., n` the exponent of each term.
 
 
@@ -36,6 +37,7 @@ python api.py "[EQUATION]"
 To solve more than just one equation at a time:
 
 1.  Include all the equations that you would like to solve in a file
+    
     Ex. `api/equations_file.example.txt`
 
 2.  Run the following command:
@@ -48,7 +50,7 @@ To solve more than just one equation at a time:
     open output.example.txt
     ```
 
-#### Premium Usage
+#### ✨✨✨ Premium Usage ✨✨✨
 A Web GUI has been implemented:
 
 1.  Open a terminal and run `yarn star-api`
@@ -61,31 +63,40 @@ Since the mandatory format is pretty annoying some improvements have been implem
 Taking as a reference: `Σ[ z * X^n ]ᵢ`
 
 1.  It is not required to introduce the terms by incrementing exponent order.
-    --> Ex: `2 * X^0 + 4 * X^2 = 0` equals `4 * X^2 + 2 * X^0 = 0`
+    
+    Ex: `2 * X^0 + 4 * X^2 = 0` equals `4 * X^2 + 2 * X^0 = 0`
 
 2.  If no `[ * X^n ]` is present, the coeficient will be admitted as `[ coef * X^0 ]`.
-    --> Ex: `2 + 4 * X^2 = 0` equals `2 * X^0 + 4 * X^2 = 0`
+    
+    Ex: `2 + 4 * X^2 = 0` equals `2 * X^0 + 4 * X^2 = 0`
 
 3.  If no `[ ^n ]` is present, the coeficient will be admitted as `[ coef * X^1 ]`.
-    --> Ex: `5 * X + 4 * X^2 = 0` equals `5 * X^1 + 4 * X^2 = 0`
+    
+    Ex: `5 * X + 4 * X^2 = 0` equals `5 * X^1 + 4 * X^2 = 0`
 
 4.  The caracter `*` is not mandatory.
-    --> Ex: `5 X + 4 X^2 = 0` equals `5 * X^1 + 4 * X^2 = 0`
+    
+    Ex: `5 X + 4 X^2 = 0` equals `5 * X^1 + 4 * X^2 = 0`
 
 5.  The caracter `^` is not mandatory.
-    --> Ex: `4 X2 = 0` equals `4 * X^2 = 0`
+    
+    Ex: `4 X2 = 0` equals `4 * X^2 = 0`
 
 6.  Both `x` and `X` are admitted.
-    --> Ex: `5 x + 4 x2 = 0` equals `5 * X^1 + 4 * X^2 = 0`
+    
+    Ex: `5 x + 4 x2 = 0` equals `5 * X^1 + 4 * X^2 = 0`
 
 7.  Spaces are not required.
-    --> Ex: `5x +4x2 = 0` equals `5 * X^1 + 4 * X^2 = 0`
+    
+    Ex: `5x +4x2 = 0` equals `5 * X^1 + 4 * X^2 = 0`
 
 8.  If the entire part of a float is 0 it can be formated as `[ .decimal_part ]`
-    --> Ex: `.3x2 = 0` equals `0.3 * X^2 = 0`
+    
+    Ex: `.3x2 = 0` equals `0.3 * X^2 = 0`
 
 9.  If the no character `=` appears the equation will be considered as equal to 0.
-    --> Ex: `5x +4x2` equals `5 * X^1 + 4 * X^2 = 0`
+    
+    Ex: `5x +4x2` equals `5 * X^1 + 4 * X^2 = 0`
 
 
 ### TESTING
