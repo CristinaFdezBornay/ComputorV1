@@ -42,7 +42,9 @@ export default function Numbers(props) {
                     )}
                 </ButtonGroup>
                 <ButtonGroup orientation='horizontal'>
-                    <Button>{'.'}</Button>
+                    <Button onClick={() => {
+                            props.setInputCalculator(props.inputCalculator+'.')
+                        }}>{'.'}</Button>
                     <Button onClick={() => {
                             props.setInputCalculator(props.inputCalculator+'0')
                         }}>{'0'}</Button>
