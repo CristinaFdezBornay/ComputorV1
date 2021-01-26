@@ -13,7 +13,7 @@ export default function Exponents(props) {
                 orientation='vertical'
                 variant='contained'
             >
-                {['*x', '*x²', ' = '].map(exponent => 
+                {['x', 'x²', ' = '].map(exponent => 
                     <Button key={exponent} onClick={() => {
                         props.setInputCalculator(props.inputCalculator+exponent)
                     }}>{exponent}</Button>
