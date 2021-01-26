@@ -19,10 +19,7 @@ if input_from_the_command_line(sys.argv):
         print('\nThe polynomial degree is strictly greater than 2, I can\'t solve.\n')
     else:
         solution = solve(equation)
-        if solution == 'ERROR':
-            print('PROCESS ERROR')
-        else:
-            display(equation)
+        display(equation)
     exit()
 
 # INPUT FROM THE FRONT
