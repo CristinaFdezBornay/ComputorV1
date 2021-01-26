@@ -53,7 +53,7 @@ To solve more than just one equation at a time:
 #### ✨✨✨ Premium Usage ✨✨✨
 A Web GUI has been implemented:
 
-1.  Open a terminal and run `yarn star-api`
+1.  Open a terminal and run `yarn start-api`
 2.  In a new terminal window run `yarn start-front`
 3.  Go to your browser `https://localhost:3000`
 
