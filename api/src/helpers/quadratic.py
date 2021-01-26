@@ -25,7 +25,7 @@ def solve_quadratic_incomplete_b(equation):
     if equation.discriminant > 0:
         equation.info = 'Discriminant is strictly positive, the two real solutions are:'
         equation.root1_r = sqrt(equation.discriminant) / (2 * equation.a)
-        equation.root2_r = sqrt(-equation.discriminant) / (2 * equation.a)
+        equation.root2_r = -sqrt(equation.discriminant) / (2 * equation.a)
     elif equation.discriminant < 0:
         equation.info = 'Discriminant is negative, the two imaginary solutions are:'
         equation.root1_i = sqrt(-equation.discriminant)
